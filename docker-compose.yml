@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  omnipost-agent:
+    build: .
+    container_name: omnipost-ai-agent
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - DEFAULT_MODEL=gemini-1.5-flash
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
