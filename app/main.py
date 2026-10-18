@@ -22,11 +22,17 @@ from app.scheduler import start_scheduler, shutdown_scheduler, run_recurring_tre
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: launch APScheduler
-    start_scheduler()
+    # Startup: launch APScheduler if supported in environment
+    try:
+        start_scheduler()
+    except Exception as e:
+        print(f"[Scheduler Warning] Background scheduler skipped: {e}")
     yield
     # Shutdown
-    shutdown_scheduler()
+    try:
+        shutdown_scheduler()
+    except Exception:
+        pass
 
 app = FastAPI(
     title="AI Social Media Agent with Human-in-the-Loop",
