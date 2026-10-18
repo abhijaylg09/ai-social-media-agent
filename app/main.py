@@ -67,7 +67,7 @@ class SettingsUpdate(BaseModel):
     default_model: Optional[str] = None
 
 # API Endpoints
-@app.get("/api/health")
+@app.api_route("/api/health", methods=["GET", "HEAD"])
 def health_check():
     return {
         "status": "healthy",
@@ -221,6 +221,6 @@ STATIC_DIR = BASE_DIR / "static"
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
-    @app.get("/")
+    @app.api_route("/", methods=["GET", "HEAD"])
     def serve_frontend():
         return FileResponse(STATIC_DIR / "index.html")
